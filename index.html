@@ -452,7 +452,7 @@ tr:hover td{background:var(--surface2);}
 
 <script>
 const PIN = "5226";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxH_scmPZBi-ZJgTwxguTu2cza8RTX2JDhn_RroMVtfKPinlzcVh62ghj2fhPc7rPP4/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0VkwPpaDt6usLw7a906ck2qXHQPwJdnq4P0t_Sc4VJPUI7XSD3_e093F3V83GY1K2/exec";
 
 let me = null, role = null;
 let laptops = JSON.parse(localStorage.getItem('ycrj_lp')||'[]');
@@ -469,58 +469,61 @@ function save(){
   syncToSheets();
 }
 
-// JSONP helper — bypasses CORS completely
-function jsonp(url, callbackName){
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    window[callbackName] = function(data){
-      resolve(data);
-      delete window[callbackName];
-      document.body.removeChild(script);
-    };
-    script.src = url + '&callback=' + callbackName;
-    script.onerror = () => { reject(new Error('JSONP failed')); delete window[callbackName]; };
-    document.body.appendChild(script);
-  });
-}
-
+// Sync to Google Sheets using iframe POST trick
 function syncToSheets(){
   try {
-    const params = {
-      action: 'saveAll',
-      laptops: encodeURIComponent(JSON.stringify(laptops)),
-      staff: encodeURIComponent(JSON.stringify(staff)),
-      transactions: encodeURIComponent(JSON.stringify(txns)),
-      repairs: encodeURIComponent(JSON.stringify(repairs))
-    };
-    const url = SCRIPT_URL + '?' + Object.keys(params).map(k=>k+'='+params[k]).join('&');
-    jsonp(url, 'cb_save_' + Date.now()).catch(()=>{});
-  } catch(e){}
+    const payload = JSON.stringify({
+      action:'saveAll',
+      staff, laptops,
+      transactions: txns,
+      repairs
+    });
+    // Use fetch with no-cors — fire and forget
+    fetch(SCRIPT_URL, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain'},
+      body: payload
+    }).then(()=>console.log('Synced to sheets'))
+      .catch(e=>console.log('Sync error:',e));
+  } catch(e){ console.error('Sync exception:',e); }
+}
+
+// Load from Google Sheets using JSONP (read only, no CORS issue)
+function jsonp(url, cbName){
+  return new Promise((resolve,reject)=>{
+    const s=document.createElement('script');
+    window[cbName]=function(data){resolve(data);delete window[cbName];s.remove();};
+    s.onerror=()=>{reject(new Error('JSONP failed'));delete window[cbName];s.remove();};
+    s.src=url+(url.includes('?')?'&':'?')+'callback='+cbName;
+    document.body.appendChild(s);
+  });
 }
 
 async function loadFromSheets(){
   try {
-    const data = await jsonp(SCRIPT_URL + '?action=getAll', 'cb_load_' + Date.now());
-    if(data.ok){
+    const data = await jsonp(SCRIPT_URL+'?action=getAll','cb_load_'+Date.now());
+    if(data && data.ok){
       if(data.staff && data.staff.length){
-        staff = data.staff.map(r=>({...r, active: r.active==='true'||r.active===true}));
-        localStorage.setItem('ycrj_st', JSON.stringify(staff));
+        staff=data.staff.map(r=>({...r,active:r.active==='true'||r.active===true}));
+        localStorage.setItem('ycrj_st',JSON.stringify(staff));
       }
       if(data.laptops && data.laptops.length){
-        laptops = data.laptops;
-        localStorage.setItem('ycrj_lp', JSON.stringify(laptops));
+        laptops=data.laptops;
+        localStorage.setItem('ycrj_lp',JSON.stringify(laptops));
       }
       if(data.transactions && data.transactions.length){
-        txns = data.transactions;
-        localStorage.setItem('ycrj_tx', JSON.stringify(txns));
+        txns=data.transactions;
+        localStorage.setItem('ycrj_tx',JSON.stringify(txns));
       }
       if(data.repairs && data.repairs.length){
-        repairs = data.repairs;
-        localStorage.setItem('ycrj_rp', JSON.stringify(repairs));
+        repairs=data.repairs;
+        localStorage.setItem('ycrj_rp',JSON.stringify(repairs));
       }
+      console.log('Loaded from sheets: staff='+data.staff.length+' laptops='+(data.laptops||[]).length);
     }
   } catch(e){
-    // Fall back to localStorage silently
+    console.log('Load fallback to localStorage:', e.message);
   }
 }
 
