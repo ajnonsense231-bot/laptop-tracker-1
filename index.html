@@ -219,14 +219,7 @@ tr:hover td{background:#f8f9fc}
   <div class="modal">
     <div class="modal-title">↩️ Return Laptop</div>
     <div id="return-laptop-info" style="background:#f8f9fc;border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:.9rem;border:1px solid var(--border)"></div>
-    <div class="field"><label>Condition on Return</label>
-      <select id="return-condition">
-        <option value="Good">Good</option>
-        <option value="Fair">Fair</option>
-        <option value="Damaged">Damaged</option>
-      </select>
-    </div>
-    <div class="field"><label>Notes (optional)</label><input type="text" id="return-notes" placeholder="Any issues to report..."/></div>
+    <div class="field"><label>Notes (optional)</label><input type="text" id="return-notes" placeholder="Any issues to report to manager..."/></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-return')">Cancel</button>
       <button class="btn btn-danger" onclick="submitReturn()">Return Laptop</button>
@@ -337,19 +330,33 @@ function renderLaptopDisplay() {
 function renderActions() {
   const grid = document.getElementById("action-grid");
   let html = "";
+
+  // FIX 9: Check if staff already has a laptop OR has a pending incoming transfer
+  const hasPendingIncoming = !!pendingTransferForMe;
+
   if (!myLaptop) {
-    html += actionBtn("📋","Request Laptop","Ask for a laptop from the pool","openModal('modal-request')");
+    if (hasPendingIncoming) {
+      // Has incoming transfer pending — block new request
+      html += `<div style="background:#fff4e5;border:1.5px solid #ffd8a0;border-radius:12px;padding:1rem;font-size:.85rem;color:var(--warn)">
+        ⏳ You have a pending laptop transfer incoming. Please confirm receipt before requesting another.
+      </div>`;
+    } else {
+      html += actionBtn("📋","Request Laptop","Ask for a laptop from the pool","openModal('modal-request')");
+    }
   } else {
+    // Has laptop — can transfer or return, but NOT request another
     html += actionBtn("🔄","Transfer","Hand over to another staff","openTransferModal()");
     html += actionBtn("↩️","Return","Return to free pool","openReturnModal()");
   }
-  if (pendingTransferForMe) {
+
+  if (hasPendingIncoming) {
     html += `<button class="action-btn action-btn-confirm" onclick="openConfirmTransfer()">
       <div class="action-btn-icon">✅</div>
       <span class="action-btn-title">Confirm Receipt</span>
       <span class="action-btn-sub">Someone transferred a laptop to you</span>
     </button>`;
   }
+
   grid.innerHTML = html || '<div style="color:var(--muted);font-size:.85rem">No actions available right now.</div>';
 }
 
@@ -444,11 +451,10 @@ async function submitTransfer() {
 }
 
 async function submitReturn() {
-  const condition = document.getElementById("return-condition").value;
   const notes = document.getElementById("return-notes").value;
   try {
-    const r = await apiPost({action:"returnLaptop", staff:currentStaff, laptopId:myLaptop.id, condition, notes});
-    if (r.success) { toast("Return submitted!"); closeModal("modal-return"); await refreshHome(); }
+    const r = await apiPost({action:"returnLaptop", staff:currentStaff, laptopId:myLaptop.id, notes});
+    if (r.success) { toast("Return submitted! Manager will inspect and confirm."); closeModal("modal-return"); await refreshHome(); }
     else toast("Error: " + (r.message||"Try again"));
   } catch(e) { toast("Connection error. Try again."); }
 }
