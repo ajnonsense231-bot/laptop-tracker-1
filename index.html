@@ -452,7 +452,7 @@ tr:hover td{background:var(--surface2);}
 
 <script>
 const PIN = "5226";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0VkwPpaDt6usLw7a906ck2qXHQPwJdnq4P0t_Sc4VJPUI7XSD3_e093F3V83GY1K2/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8pm8FXsvyOaRksrqLdonOUuOY4e_5atR58VhBrvwZK9Fpb_qJvQZlRbGyRwqkB7Vq/exec";
 
 let me = null, role = null;
 let laptops = JSON.parse(localStorage.getItem('ycrj_lp')||'[]');
@@ -460,7 +460,7 @@ let staff   = JSON.parse(localStorage.getItem('ycrj_st')||'[]');
 let txns    = JSON.parse(localStorage.getItem('ycrj_tx')||'[]');
 let repairs = JSON.parse(localStorage.getItem('ycrj_rp')||'[]');
 
-// Save to localStorage immediately, then sync to Google Sheets in background
+// Save to localStorage first (instant), then sync to sheets
 function save(){
   localStorage.setItem('ycrj_lp',JSON.stringify(laptops));
   localStorage.setItem('ycrj_st',JSON.stringify(staff));
@@ -469,27 +469,49 @@ function save(){
   syncToSheets();
 }
 
-// Sync to Google Sheets using iframe POST trick
+// Sync using form submission — bypasses CORS completely
 function syncToSheets(){
   try {
-    const payload = JSON.stringify({
-      action:'saveAll',
-      staff, laptops,
-      transactions: txns,
-      repairs
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SCRIPT_URL;
+    form.target = 'hidden-sync-frame';
+    form.style.display = 'none';
+
+    const fields = {
+      action: 'saveAll',
+      laptops: JSON.stringify(laptops),
+      staff: JSON.stringify(staff),
+      transactions: JSON.stringify(txns),
+      repairs: JSON.stringify(repairs)
+    };
+
+    Object.keys(fields).forEach(k => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = k;
+      input.value = fields[k];
+      form.appendChild(input);
     });
-    // Use fetch with no-cors — fire and forget
-    fetch(SCRIPT_URL, {
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'text/plain'},
-      body: payload
-    }).then(()=>console.log('Synced to sheets'))
-      .catch(e=>console.log('Sync error:',e));
-  } catch(e){ console.error('Sync exception:',e); }
+
+    // Create hidden iframe to receive response
+    let frame = document.getElementById('hidden-sync-frame');
+    if(!frame){
+      frame = document.createElement('iframe');
+      frame.name = 'hidden-sync-frame';
+      frame.id = 'hidden-sync-frame';
+      frame.style.display = 'none';
+      document.body.appendChild(frame);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(()=>form.remove(), 3000);
+    console.log('Synced to sheets via form POST');
+  } catch(e){ console.error('Sync error:', e); }
 }
 
-// Load from Google Sheets using JSONP (read only, no CORS issue)
+// Load from sheets using JSONP
 function jsonp(url, cbName){
   return new Promise((resolve,reject)=>{
     const s=document.createElement('script');
@@ -502,7 +524,10 @@ function jsonp(url, cbName){
 
 async function loadFromSheets(){
   try {
-    const data = await jsonp(SCRIPT_URL+'?action=getAll','cb_load_'+Date.now());
+    const data = await Promise.race([
+      jsonp(SCRIPT_URL+'?action=getAll','cb_load_'+Date.now()),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('timeout')),8000))
+    ]);
     if(data && data.ok){
       if(data.staff && data.staff.length){
         staff=data.staff.map(r=>({...r,active:r.active==='true'||r.active===true}));
@@ -520,10 +545,10 @@ async function loadFromSheets(){
         repairs=data.repairs;
         localStorage.setItem('ycrj_rp',JSON.stringify(repairs));
       }
-      console.log('Loaded from sheets: staff='+data.staff.length+' laptops='+(data.laptops||[]).length);
+      console.log('Loaded from sheets!');
     }
   } catch(e){
-    console.log('Load fallback to localStorage:', e.message);
+    console.log('Using localStorage fallback:', e.message);
   }
 }
 
