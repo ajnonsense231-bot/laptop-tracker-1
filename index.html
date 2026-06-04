@@ -452,7 +452,7 @@ tr:hover td{background:var(--surface2);}
 
 <script>
 const PIN = "5226";
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrQn9WpvptD-lrrGkITwB_kkd4lG3Rbruf-BkDSKqb1yd47bKoGkfOx3FIgRRydOyc/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxH_scmPZBi-ZJgTwxguTu2cza8RTX2JDhn_RroMVtfKPinlzcVh62ghj2fhPc7rPP4/exec";
 
 let me = null, role = null;
 let laptops = JSON.parse(localStorage.getItem('ycrj_lp')||'[]');
@@ -469,39 +469,55 @@ function save(){
   syncToSheets();
 }
 
+// JSONP helper — bypasses CORS completely
+function jsonp(url, callbackName){
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    window[callbackName] = function(data){
+      resolve(data);
+      delete window[callbackName];
+      document.body.removeChild(script);
+    };
+    script.src = url + '&callback=' + callbackName;
+    script.onerror = () => { reject(new Error('JSONP failed')); delete window[callbackName]; };
+    document.body.appendChild(script);
+  });
+}
+
 function syncToSheets(){
   try {
-    const form = document.createElement('form');
-    form.style.display = 'none';
     const params = {
       action: 'saveAll',
-      laptops: JSON.stringify(laptops),
-      staff: JSON.stringify(staff),
-      transactions: JSON.stringify(txns),
-      repairs: JSON.stringify(repairs)
+      laptops: encodeURIComponent(JSON.stringify(laptops)),
+      staff: encodeURIComponent(JSON.stringify(staff)),
+      transactions: encodeURIComponent(JSON.stringify(txns)),
+      repairs: encodeURIComponent(JSON.stringify(repairs))
     };
-    // Use fetch with no-cors for fire-and-forget save
-    const url = SCRIPT_URL + '?' + Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
-    fetch(url, {method:'GET', mode:'no-cors'}).catch(()=>{});
+    const url = SCRIPT_URL + '?' + Object.keys(params).map(k=>k+'='+params[k]).join('&');
+    jsonp(url, 'cb_save_' + Date.now()).catch(()=>{});
   } catch(e){}
 }
 
-// Load data from Google Sheets on first open
 async function loadFromSheets(){
   try {
-    const r = await fetch(SCRIPT_URL+'?action=getStaff');
-    const st = await r.json();
-    if(st.ok && st.data && st.data.length){
-      // Sheets has data — load everything
-      const [lp, tx, rp] = await Promise.all([
-        fetch(SCRIPT_URL+'?action=getLaptops').then(r=>r.json()),
-        fetch(SCRIPT_URL+'?action=getTransactions').then(r=>r.json()),
-        fetch(SCRIPT_URL+'?action=getRepairs').then(r=>r.json()),
-      ]);
-      if(st.ok && st.data.length){ staff   = st.data.map(r=>({...r, active: r.active==='true'||r.active===true})); localStorage.setItem('ycrj_st',JSON.stringify(staff)); }
-      if(lp.ok && lp.data.length){ laptops = lp.data; localStorage.setItem('ycrj_lp',JSON.stringify(laptops)); }
-      if(tx.ok && tx.data.length){ txns    = tx.data; localStorage.setItem('ycrj_tx',JSON.stringify(txns)); }
-      if(rp.ok && rp.data.length){ repairs = rp.data; localStorage.setItem('ycrj_rp',JSON.stringify(repairs)); }
+    const data = await jsonp(SCRIPT_URL + '?action=getAll', 'cb_load_' + Date.now());
+    if(data.ok){
+      if(data.staff && data.staff.length){
+        staff = data.staff.map(r=>({...r, active: r.active==='true'||r.active===true}));
+        localStorage.setItem('ycrj_st', JSON.stringify(staff));
+      }
+      if(data.laptops && data.laptops.length){
+        laptops = data.laptops;
+        localStorage.setItem('ycrj_lp', JSON.stringify(laptops));
+      }
+      if(data.transactions && data.transactions.length){
+        txns = data.transactions;
+        localStorage.setItem('ycrj_tx', JSON.stringify(txns));
+      }
+      if(data.repairs && data.repairs.length){
+        repairs = data.repairs;
+        localStorage.setItem('ycrj_rp', JSON.stringify(repairs));
+      }
     }
   } catch(e){
     // Fall back to localStorage silently
