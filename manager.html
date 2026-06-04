@@ -7,129 +7,119 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root {
-  --bg: #0d1117;
-  --surface: #161b27;
-  --card: #1c2130;
-  --border: #252b3d;
-  --accent: #4f8ef7;
-  --accent2: #38e2a8;
-  --warn: #f7a94f;
-  --danger: #f75f5f;
-  --purple: #a78bfa;
-  --text: #e8ecf4;
-  --muted: #7b85a0;
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --border: #e2e6f0;
+  --accent: #3b6ff0;
+  --accent2: #0fa96e;
+  --warn: #e07d10;
+  --danger: #d63e3e;
+  --indigo: #5b4ef8;
+  --text: #1a1f36;
+  --muted: #6b7490;
   --mono: 'DM Mono', monospace;
   --sans: 'DM Sans', sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh}
 #app{display:none;flex-direction:column;min-height:100vh}
 
 /* PIN SCREEN */
-#pin-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem;background:radial-gradient(ellipse at 40% 30%,#1e1535 0%,#0d1117 65%)}
-.pin-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:360px;text-align:center;box-shadow:0 24px 80px #00000066}
-.pin-logo{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;color:var(--purple);text-transform:uppercase;margin-bottom:.5rem}
+#pin-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem;background:linear-gradient(135deg,#eef2ff 0%,#f4f6fb 70%)}
+.pin-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:340px;text-align:center;box-shadow:0 8px 40px #3b6ff015}
+.pin-logo{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;color:var(--indigo);text-transform:uppercase;margin-bottom:.5rem}
 .pin-title{font-size:1.4rem;font-weight:600;margin-bottom:.25rem}
 .pin-sub{color:var(--muted);font-size:.85rem;margin-bottom:2rem}
 .pin-dots{display:flex;justify-content:center;gap:.75rem;margin-bottom:1.75rem}
 .pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);background:transparent;transition:all .15s}
-.pin-dot.filled{background:var(--purple);border-color:var(--purple);box-shadow:0 0 8px #a78bfa88}
+.pin-dot.filled{background:var(--indigo);border-color:var(--indigo);box-shadow:0 0 8px #5b4ef844}
 .pin-dot.error{background:var(--danger);border-color:var(--danger)}
 .pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;max-width:240px;margin:0 auto}
-.pin-key{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem;font-size:1.1rem;font-weight:600;font-family:var(--mono);color:var(--text);cursor:pointer;transition:all .15s;user-select:none}
-.pin-key:hover{background:#1e2438;border-color:var(--purple);color:var(--purple)}
+.pin-key{background:#f8f9fc;border:1.5px solid var(--border);border-radius:12px;padding:.9rem;font-size:1.1rem;font-weight:600;font-family:var(--mono);color:var(--text);cursor:pointer;transition:all .15s;user-select:none}
+.pin-key:hover{background:#eef2ff;border-color:var(--indigo);color:var(--indigo)}
 .pin-key:active{transform:scale(.94)}
 .pin-key.del{font-size:.85rem;color:var(--muted)}
-.pin-err{color:var(--danger);font-size:.82rem;margin-top:1rem;min-height:1.2em;transition:opacity .3s}
+.pin-err{color:var(--danger);font-size:.82rem;margin-top:1rem;min-height:1.2em}
 
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.hdr-logo{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;color:var(--purple);text-transform:uppercase}
+header{background:#fff;border-bottom:1px solid var(--border);padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px #0000000a}
+.hdr-logo{font-family:var(--mono);font-size:.68rem;letter-spacing:.15em;color:var(--indigo);text-transform:uppercase}
 .hdr-title{font-size:.9rem;font-weight:600}
-.badge{font-family:var(--mono);font-size:.7rem;padding:.2rem .6rem;border-radius:20px;letter-spacing:.05em}
-.badge-blue{background:#1a2a4a;color:var(--accent);border:1px solid #2a3a5a}
-.badge-green{background:#0f2a1e;color:var(--accent2);border:1px solid #1a3a2a}
-.badge-warn{background:#2a1f0f;color:var(--warn);border:1px solid #3a2f1a}
-.badge-red{background:#2a0f0f;color:var(--danger);border:1px solid #3a1f1f}
-.badge-gray{background:#1a1e2a;color:var(--muted);border:1px solid var(--border)}
-.badge-purple{background:#1e1a2a;color:var(--purple);border:1px solid #2a2040}
+.badge{font-family:var(--mono);font-size:.7rem;padding:.2rem .65rem;border-radius:20px;letter-spacing:.04em;font-weight:500}
+.badge-blue{background:#e8effe;color:var(--accent);border:1px solid #c5d4fc}
+.badge-green{background:#e6f9f1;color:var(--accent2);border:1px solid #b3e8d0}
+.badge-warn{background:#fff4e5;color:var(--warn);border:1px solid #ffd8a0}
+.badge-red{background:#fdeaea;color:var(--danger);border:1px solid #f5b8b8}
+.badge-gray{background:#f0f2f7;color:var(--muted);border:1px solid var(--border)}
+.badge-indigo{background:#eeeeff;color:var(--indigo);border:1px solid #c5befe}
 
-nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;gap:.25rem;overflow-x:auto}
-.nav-tab{padding:.7rem 1rem;font-size:.85rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans);white-space:nowrap}
-.nav-tab.active{color:var(--purple);border-bottom-color:var(--purple)}
+nav{background:#fff;border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;gap:.25rem;overflow-x:auto}
+.nav-tab{padding:.7rem 1rem;font-size:.85rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans);font-weight:500;white-space:nowrap}
+.nav-tab.active{color:var(--indigo);border-bottom-color:var(--indigo)}
 .nav-tab:hover{color:var(--text)}
 
 main{flex:1;padding:1.5rem;max-width:1100px;margin:0 auto;width:100%}
 .page{display:none}
 .page.active{display:block}
 
-/* CARDS */
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px #0000000a}
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:1.5rem}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
-.stat-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.4rem}
-.stat-val{font-size:2rem;font-weight:600;font-family:var(--mono)}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.25rem;box-shadow:0 1px 4px #0000000a}
+.stat-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.4rem;font-weight:600}
+.stat-val{font-size:2rem;font-weight:700;font-family:var(--mono)}
 .stat-blue{border-top:3px solid var(--accent)}
 .stat-green{border-top:3px solid var(--accent2)}
 .stat-warn{border-top:3px solid var(--warn)}
 .stat-red{border-top:3px solid var(--danger)}
-.stat-purple{border-top:3px solid var(--purple)}
+.stat-indigo{border-top:3px solid var(--indigo)}
 
-/* TABLE */
-.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border)}
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);background:#fff}
 table{width:100%;border-collapse:collapse;font-size:.84rem}
-th{text-align:left;padding:.65rem .9rem;color:var(--muted);font-weight:500;font-size:.73rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);background:var(--surface)}
-td{padding:.75rem .9rem;border-bottom:1px solid #1a1e2a;vertical-align:middle}
+th{text-align:left;padding:.65rem .9rem;color:var(--muted);font-weight:600;font-size:.73rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1.5px solid var(--border);background:#f8f9fc}
+td{padding:.75rem .9rem;border-bottom:1px solid var(--border);vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:#1a1e2a55}
+tr:hover td{background:#f8f9fc}
 .empty-row{text-align:center;color:var(--muted);padding:2rem}
 
-/* BUTTONS */
 .btn{padding:.65rem 1.1rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-family:var(--sans);font-size:.85rem;font-weight:500;cursor:pointer;transition:opacity .2s}
 .btn:hover{opacity:.85}
 .btn-sm{padding:.35rem .75rem;font-size:.78rem;border-radius:6px}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
 .btn-ghost:hover{border-color:var(--text);color:var(--text)}
-.btn-success{background:var(--accent2);color:#0a1a10}
-.btn-danger{background:var(--danger)}
-.btn-warn{background:var(--warn);color:#1a1000}
-.btn-purple{background:var(--purple);color:#0a0810}
+.btn-success{background:var(--accent2);color:#fff}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-warn{background:var(--warn);color:#fff}
+.btn-indigo{background:var(--indigo);color:#fff}
 .btn-row{display:flex;gap:.5rem;align-items:center}
 
-/* MODAL */
-.overlay{position:fixed;inset:0;background:#00000099;backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.overlay{position:fixed;inset:0;background:#1a1f3666;backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
 .overlay.open{display:flex}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:2rem;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.modal{background:#fff;border:1px solid var(--border);border-radius:18px;padding:2rem;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px #0000001a}
 .modal-title{font-size:1.1rem;font-weight:600;margin-bottom:1.5rem}
 .modal-actions{display:flex;gap:.75rem;margin-top:1.5rem}
 .modal-actions .btn{flex:1}
-label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:.35rem;letter-spacing:.05em;text-transform:uppercase}
-select,input,textarea{width:100%;padding:.7rem 1rem;background:#1a1e2a;border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:.9rem;outline:none;transition:border .2s}
-select:focus,input:focus,textarea:focus{border-color:var(--purple)}
-select option{background:#1a1e2a}
+label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:.35rem;letter-spacing:.05em;text-transform:uppercase;font-weight:500}
+select,input,textarea{width:100%;padding:.7rem 1rem;background:#f8f9fc;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:.9rem;outline:none;transition:border .2s}
+select:focus,input:focus,textarea:focus{border-color:var(--indigo);background:#fff}
 .field{margin-bottom:1rem}
 
-/* SECTION */
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.75rem}
-.section-title{font-size:1rem;font-weight:600}
 .page-header{margin-bottom:1.5rem}
 .page-title{font-size:1.25rem;font-weight:600;margin-bottom:.2rem}
 .page-sub{color:var(--muted);font-size:.875rem}
 
-/* APPROVAL CARD */
-.approval-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
-.approval-item-left{}
-.approval-type{font-size:.75rem;font-weight:600;color:var(--purple);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.2rem}
+.approval-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;box-shadow:0 1px 4px #0000000a}
+.approval-type{font-size:.72rem;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem}
 .approval-detail{font-size:.9rem;font-weight:500;margin-bottom:.2rem}
 .approval-meta{font-size:.78rem;color:var(--muted)}
-.approval-actions{display:flex;gap:.5rem}
+.approval-actions{display:flex;gap:.5rem;flex-wrap:wrap}
 
-/* TOAST */
-#toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:#252b3b;border:1px solid var(--border);color:var(--text);padding:.75rem 1.5rem;border-radius:50px;font-size:.9rem;z-index:999;transition:transform .3s;white-space:nowrap}
-#toast.show{transform:translateX(-50%) translateY(0)}
-
-.search-bar{width:100%;max-width:280px;padding:.6rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:.85rem;outline:none}
-.search-bar:focus{border-color:var(--purple)}
+.search-bar{width:100%;max-width:280px;padding:.6rem 1rem;background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:.85rem;outline:none}
+.search-bar:focus{border-color:var(--indigo)}
 .filter-row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+
+#toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:#fff;padding:.75rem 1.5rem;border-radius:50px;font-size:.88rem;z-index:999;transition:transform .3s;white-space:nowrap;box-shadow:0 4px 20px #0000002a}
+#toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
@@ -171,8 +161,7 @@ select option{background:#1a1e2a}
       <div class="hdr-title">Manager Portal — Laptop Tracker</div>
     </div>
     <div style="display:flex;gap:.75rem;align-items:center">
-      <span class="badge badge-purple">Manager</span>
-      <a href="index.html"><button class="btn btn-ghost btn-sm">Staff Portal</button></a>
+      <span class="badge badge-indigo">Manager</span>
     </div>
   </header>
 
@@ -189,15 +178,10 @@ select option{background:#1a1e2a}
 
     <!-- DASHBOARD -->
     <div class="page active" id="page-dashboard">
-      <div class="page-header">
-        <div class="page-title">Dashboard</div>
-        <div class="page-sub">Live overview of all laptop assets</div>
-      </div>
+      <div class="page-header"><div class="page-title">Dashboard</div><div class="page-sub">Live overview of all laptop assets</div></div>
       <div class="stat-grid" id="stat-grid"></div>
       <div class="card">
-        <div class="section-header">
-          <div class="section-title">Currently Issued Laptops</div>
-        </div>
+        <div class="section-header"><div style="font-weight:600">Currently Issued Laptops</div></div>
         <div class="table-wrap">
           <table><thead><tr><th>Laptop ID</th><th>Make / Model</th><th>Issued To</th><th>Since</th><th>Status</th></tr></thead>
           <tbody id="issued-table"></tbody></table>
@@ -207,10 +191,7 @@ select option{background:#1a1e2a}
 
     <!-- APPROVALS -->
     <div class="page" id="page-approvals">
-      <div class="page-header">
-        <div class="page-title">Pending Approvals</div>
-        <div class="page-sub">Review and action all pending requests</div>
-      </div>
+      <div class="page-header"><div class="page-title">Pending Approvals</div><div class="page-sub">Review and action all pending requests</div></div>
       <div id="approvals-list"></div>
     </div>
 
@@ -218,11 +199,8 @@ select option{background:#1a1e2a}
     <div class="page" id="page-laptops">
       <div class="page-header">
         <div class="section-header">
-          <div>
-            <div class="page-title">Laptop Master</div>
-            <div class="page-sub">All laptops in the asset pool</div>
-          </div>
-          <button class="btn btn-purple" onclick="openAddLaptop()">+ Add Laptop</button>
+          <div><div class="page-title">Laptop Master</div><div class="page-sub">All laptops in the asset pool</div></div>
+          <button class="btn btn-indigo" onclick="openAddLaptop()">+ Add Laptop</button>
         </div>
       </div>
       <div class="table-wrap">
@@ -235,11 +213,8 @@ select option{background:#1a1e2a}
     <div class="page" id="page-staff">
       <div class="page-header">
         <div class="section-header">
-          <div>
-            <div class="page-title">Staff Master</div>
-            <div class="page-sub">Manage staff members</div>
-          </div>
-          <button class="btn btn-purple" onclick="openAddStaff()">+ Add Staff</button>
+          <div><div class="page-title">Staff Master</div><div class="page-sub">Manage staff members</div></div>
+          <button class="btn btn-indigo" onclick="openAddStaff()">+ Add Staff</button>
         </div>
       </div>
       <div class="table-wrap">
@@ -252,10 +227,7 @@ select option{background:#1a1e2a}
     <div class="page" id="page-repairs">
       <div class="page-header">
         <div class="section-header">
-          <div>
-            <div class="page-title">Repair Log</div>
-            <div class="page-sub">Track repairs and damage history</div>
-          </div>
+          <div><div class="page-title">Repair Log</div><div class="page-sub">Track repairs and damage history</div></div>
           <button class="btn btn-warn" onclick="openAddRepair()">+ Log Repair</button>
         </div>
       </div>
@@ -267,15 +239,11 @@ select option{background:#1a1e2a}
 
     <!-- HISTORY -->
     <div class="page" id="page-history">
-      <div class="page-header">
-        <div class="page-title">Transaction History</div>
-        <div class="page-sub">Complete log of all actions</div>
-      </div>
+      <div class="page-header"><div class="page-title">Transaction History</div><div class="page-sub">Complete log of all actions</div></div>
       <div class="filter-row">
         <input class="search-bar" id="hist-search" type="text" placeholder="Search staff or laptop..." oninput="filterHistory()"/>
         <select id="hist-type" onchange="filterHistory()" style="max-width:180px;padding:.55rem .9rem;font-size:.85rem">
-          <option value="">All Types</option>
-          <option>Request</option><option>Transfer</option><option>Return</option>
+          <option value="">All Types</option><option>Request</option><option>Transfer</option><option>Return</option>
         </select>
       </div>
       <div class="table-wrap">
@@ -288,27 +256,24 @@ select option{background:#1a1e2a}
 </div>
 
 <!-- MODALS -->
-
-<!-- Assign Laptop -->
 <div class="overlay" id="modal-assign">
   <div class="modal">
-    <div class="modal-title">✅ Approve & Assign Laptop</div>
-    <div id="assign-req-info" style="background:var(--surface);border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:.9rem;line-height:1.6"></div>
+    <div class="modal-title">✅ Approve &amp; Assign Laptop</div>
+    <div id="assign-req-info" style="background:#f8f9fc;border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:.9rem;line-height:1.6;border:1px solid var(--border)"></div>
     <div class="field"><label>Assign Laptop</label>
       <select id="assign-laptop-sel"><option value="">— Select available laptop —</option></select>
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-assign')">Cancel</button>
-      <button class="btn btn-success" onclick="submitAssign()">Approve & Assign</button>
+      <button class="btn btn-success" onclick="submitAssign()">Approve &amp; Assign</button>
     </div>
   </div>
 </div>
 
-<!-- Reject -->
 <div class="overlay" id="modal-reject">
   <div class="modal">
     <div class="modal-title">❌ Reject Request</div>
-    <div class="field"><label>Reason for Rejection</label><input type="text" id="reject-reason" placeholder="Optional reason..."/></div>
+    <div class="field"><label>Reason (optional)</label><input type="text" id="reject-reason" placeholder="Reason for rejection..."/></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-reject')">Cancel</button>
       <button class="btn btn-danger" onclick="submitReject()">Reject</button>
@@ -316,7 +281,6 @@ select option{background:#1a1e2a}
   </div>
 </div>
 
-<!-- Add Laptop -->
 <div class="overlay" id="modal-add-laptop">
   <div class="modal">
     <div class="modal-title" id="add-laptop-title">+ Add Laptop</div>
@@ -334,12 +298,11 @@ select option{background:#1a1e2a}
     <div class="field"><label>Notes</label><input type="text" id="lp-notes" placeholder="Any notes..."/></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-add-laptop')">Cancel</button>
-      <button class="btn btn-purple" onclick="saveLaptop()">Save Laptop</button>
+      <button class="btn btn-indigo" onclick="saveLaptop()">Save Laptop</button>
     </div>
   </div>
 </div>
 
-<!-- Add Staff -->
 <div class="overlay" id="modal-add-staff">
   <div class="modal">
     <div class="modal-title">+ Add Staff Member</div>
@@ -347,15 +310,14 @@ select option{background:#1a1e2a}
     <div class="field"><label>Role / Designation (optional)</label><input type="text" id="st-role" placeholder="e.g. Article Assistant"/></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-add-staff')">Cancel</button>
-      <button class="btn btn-purple" onclick="saveStaff()">Add Staff</button>
+      <button class="btn btn-indigo" onclick="saveStaff()">Add Staff</button>
     </div>
   </div>
 </div>
 
-<!-- Add Repair -->
 <div class="overlay" id="modal-add-repair">
   <div class="modal">
-    <div class="modal-title" id="repair-modal-title">+ Log Repair</div>
+    <div class="modal-title">+ Log Repair</div>
     <div class="field"><label>Laptop</label>
       <select id="repair-laptop"><option value="">— Select laptop —</option></select>
     </div>
@@ -372,7 +334,6 @@ select option{background:#1a1e2a}
   </div>
 </div>
 
-<!-- Close Repair -->
 <div class="overlay" id="modal-close-repair">
   <div class="modal">
     <div class="modal-title">🔧 Close Repair</div>
@@ -392,445 +353,325 @@ select option{background:#1a1e2a}
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwoY9GdK0nzpNy-02vP9wkpwilxrpFXaOtNBezifEa77fLT-e2p4p6oguyhmzsuO4vAmw/exec";
+const MANAGER_PIN = "5226";
 
-let allLaptops = [], allStaff = [], allApprovals = [], allHistory = [], allRepairs = [];
-let editingLaptopId = null, editingRepairId = null, currentApprovalTxn = null;
+let allLaptops=[], allStaff=[], allApprovals=[], allHistory=[], allRepairs=[];
+let editingLaptopId=null, currentApprovalTxn=null, rejectTxnId=null, closingRepairId=null;
+let pinEntry="";
 
-async function api(action, params={}) {
-  const url = SCRIPT_URL + "?action=" + action + "&" + new URLSearchParams(params);
+// ─── PIN ───
+function pinKey(d) {
+  if(pinEntry.length>=4) return;
+  pinEntry+=d; updateDots();
+  if(pinEntry.length===4) setTimeout(checkPin,150);
+}
+function pinBack(){ pinEntry=pinEntry.slice(0,-1); updateDots(); }
+function pinClear(){ pinEntry=""; updateDots(); document.getElementById("pin-err").textContent=""; }
+function updateDots(state){
+  for(let i=0;i<4;i++){
+    const d=document.getElementById("dot-"+i);
+    d.className="pin-dot";
+    if(state==="error") d.classList.add("error");
+    else if(i<pinEntry.length) d.classList.add("filled");
+  }
+}
+function checkPin(){
+  if(pinEntry===MANAGER_PIN){
+    document.getElementById("pin-screen").style.display="none";
+    document.getElementById("app").style.display="flex";
+    init();
+  } else {
+    updateDots("error");
+    document.getElementById("pin-err").textContent="Incorrect PIN. Try again.";
+    setTimeout(()=>{ pinEntry=""; updateDots(); },900);
+  }
+}
+document.addEventListener("keydown",e=>{
+  if(document.getElementById("pin-screen").style.display==="none") return;
+  if(e.key>="0"&&e.key<="9") pinKey(e.key);
+  else if(e.key==="Backspace") pinBack();
+  else if(e.key==="Escape") pinClear();
+});
+
+// ─── API ───
+async function api(action,params={}){
+  const url=SCRIPT_URL+"?action="+action+"&"+new URLSearchParams(params);
   return (await fetch(url)).json();
 }
-async function apiPost(payload) {
-  return (await fetch(SCRIPT_URL, {method:"POST", body:JSON.stringify(payload)})).json();
+async function apiPost(payload){
+  return (await fetch(SCRIPT_URL,{method:"POST",body:JSON.stringify(payload)})).json();
 }
 
-// ─── INIT ───
-async function init() {
-  await Promise.all([loadDashboard(), loadApprovals(), loadLaptops(), loadStaff(), loadRepairs(), loadHistory()]);
+async function init(){
+  await Promise.all([loadDashboard(),loadApprovals(),loadLaptops(),loadStaff(),loadRepairs(),loadHistory()]);
 }
 
 // ─── DASHBOARD ───
-async function loadDashboard() {
-  try {
-    const data = await api("getDashboard");
-    const stats = data.stats || {};
-    document.getElementById("stat-grid").innerHTML = `
-      <div class="stat-card stat-blue"><div class="stat-label">Total Laptops</div><div class="stat-val">${stats.total||0}</div></div>
-      <div class="stat-card stat-green"><div class="stat-label">Available</div><div class="stat-val">${stats.available||0}</div></div>
-      <div class="stat-card stat-blue"><div class="stat-label">Issued</div><div class="stat-val">${stats.issued||0}</div></div>
-      <div class="stat-card stat-warn"><div class="stat-label">In Repair</div><div class="stat-val">${stats.inRepair||0}</div></div>
-      <div class="stat-card stat-red"><div class="stat-label">Damaged</div><div class="stat-val">${stats.damaged||0}</div></div>
-      <div class="stat-card stat-purple"><div class="stat-label">Pending Actions</div><div class="stat-val">${stats.pending||0}</div></div>`;
-
-    const issued = data.issued || [];
-    const tbody = document.getElementById("issued-table");
-    if (!issued.length) {
-      tbody.innerHTML = '<tr><td colspan="5" class="empty-row">No laptops currently issued</td></tr>';
-    } else {
-      tbody.innerHTML = issued.map(l=>`<tr>
-        <td style="font-family:var(--mono);font-size:.8rem">${l.id}</td>
-        <td>${l.make} ${l.model}</td>
-        <td>${l.issuedTo}</td>
-        <td style="font-family:var(--mono);font-size:.78rem;color:var(--muted)">${formatDate(l.issuedOn)}</td>
-        <td>${badge(l.status)}</td>
-      </tr>`).join("");
-    }
-  } catch(e) { console.error(e); }
+async function loadDashboard(){
+  try{
+    const data=await api("getDashboard");
+    const s=data.stats||{};
+    document.getElementById("stat-grid").innerHTML=`
+      <div class="stat-card stat-blue"><div class="stat-label">Total</div><div class="stat-val">${s.total||0}</div></div>
+      <div class="stat-card stat-green"><div class="stat-label">Available</div><div class="stat-val">${s.available||0}</div></div>
+      <div class="stat-card stat-blue"><div class="stat-label">Issued</div><div class="stat-val">${s.issued||0}</div></div>
+      <div class="stat-card stat-warn"><div class="stat-label">In Repair</div><div class="stat-val">${s.inRepair||0}</div></div>
+      <div class="stat-card stat-red"><div class="stat-label">Damaged</div><div class="stat-val">${s.damaged||0}</div></div>
+      <div class="stat-card stat-indigo"><div class="stat-label">Pending</div><div class="stat-val">${s.pending||0}</div></div>`;
+    const issued=data.issued||[];
+    const tbody=document.getElementById("issued-table");
+    tbody.innerHTML=issued.length?issued.map(l=>`<tr>
+      <td style="font-family:var(--mono);font-size:.8rem">${l.id}</td>
+      <td>${l.make} ${l.model}</td><td>${l.issuedTo}</td>
+      <td style="font-family:var(--mono);font-size:.78rem;color:var(--muted)">${formatDate(l.issuedOn)}</td>
+      <td>${badge(l.status)}</td></tr>`).join("")
+      :'<tr><td colspan="5" class="empty-row">No laptops currently issued</td></tr>';
+  }catch(e){console.error(e);}
 }
 
 // ─── APPROVALS ───
-async function loadApprovals() {
-  try {
-    const data = await api("getPendingApprovals");
-    allApprovals = data.approvals || [];
-    const count = allApprovals.length;
-    document.getElementById("approval-count-badge").innerHTML =
-      count ? `<span style="background:var(--danger);color:#fff;border-radius:50%;padding:0 .4rem;font-size:.7rem;margin-left:.3rem">${count}</span>` : "";
+async function loadApprovals(){
+  try{
+    const data=await api("getPendingApprovals");
+    allApprovals=data.approvals||[];
+    const count=allApprovals.length;
+    document.getElementById("approval-count-badge").innerHTML=count?`<span style="background:var(--danger);color:#fff;border-radius:50%;padding:0 .45rem;font-size:.7rem;margin-left:.3rem">${count}</span>`:"";
     renderApprovals();
-  } catch(e) {}
+  }catch(e){}
 }
 
-function renderApprovals() {
-  const el = document.getElementById("approvals-list");
-  if (!allApprovals.length) {
-    el.innerHTML = '<div class="card" style="text-align:center;padding:2.5rem;color:var(--muted)">✅ No pending approvals</div>';
-    return;
-  }
-  el.innerHTML = allApprovals.map(a => {
-    let detail = "", actions = "";
-    if (a.type === "Request") {
-      detail = `<b>${a.staff}</b> requests a laptop · <span style="color:var(--muted)">${a.notes||""}</span>`;
-      actions = `<button class="btn btn-success btn-sm" onclick="openAssign('${a.txnId}')">Approve & Assign</button>
-                 <button class="btn btn-danger btn-sm" onclick="openReject('${a.txnId}')">Reject</button>`;
-    } else if (a.type === "Transfer") {
-      detail = `<b>${a.fromStaff}</b> → <b>${a.toStaff}</b> · ${a.laptopId} · <span style="color:var(--muted)">${a.notes||""}</span>`;
-      actions = `<button class="btn btn-success btn-sm" onclick="approveTransfer('${a.txnId}')">Approve</button>
-                 <button class="btn btn-danger btn-sm" onclick="openReject('${a.txnId}')">Reject</button>`;
-    } else if (a.type === "Return") {
-      detail = `<b>${a.staff}</b> returning <b>${a.laptopId}</b> · Condition: ${a.condition||"—"}`;
-      actions = `<button class="btn btn-success btn-sm" onclick="approveReturn('${a.txnId}')">Confirm Return</button>
-                 <button class="btn btn-danger btn-sm" onclick="openReject('${a.txnId}')">Reject</button>`;
+function renderApprovals(){
+  const el=document.getElementById("approvals-list");
+  if(!allApprovals.length){el.innerHTML='<div class="card" style="text-align:center;padding:2.5rem;color:var(--muted)">✅ No pending approvals</div>';return;}
+  el.innerHTML=allApprovals.map(a=>{
+    let detail="",actions="";
+    if(a.type==="Request"){
+      detail=`<b>${a.staff}</b> requests a laptop · <span style="color:var(--muted)">${a.notes||""}</span>`;
+      actions=`<button class="btn btn-success btn-sm" onclick="openAssign('${a.txnId}')">Approve &amp; Assign</button>
+               <button class="btn btn-danger btn-sm" onclick="openReject('${a.txnId}')">Reject</button>`;
+    }else if(a.type==="Transfer"){
+      detail=`<b>${a.fromStaff}</b> → <b>${a.toStaff}</b> · ${a.laptopId} · <span style="color:var(--muted)">${a.notes||""}</span>`;
+      actions=`<button class="btn btn-success btn-sm" onclick="approveTransfer('${a.txnId}')">Approve</button>
+               <button class="btn btn-danger btn-sm" onclick="openReject('${a.txnId}')">Reject</button>`;
+    }else if(a.type==="Return"){
+      detail=`<b>${a.staff}</b> returning <b>${a.laptopId}</b> · Condition: ${a.condition||"—"}`;
+      actions=`<button class="btn btn-success btn-sm" onclick="approveReturn('${a.txnId}','${a.laptopId}','${a.condition||"Good"}','${a.staff}')">Confirm Return</button>
+               <button class="btn btn-danger btn-sm" onclick="openReject('${a.txnId}')">Reject</button>`;
     }
     return `<div class="approval-item">
-      <div class="approval-item-left">
-        <div class="approval-type">${a.type}</div>
-        <div class="approval-detail">${detail}</div>
-        <div class="approval-meta">${formatDate(a.date)} · TXN: <span style="font-family:var(--mono)">${a.txnId}</span></div>
-      </div>
-      <div class="approval-actions">${actions}</div>
-    </div>`;
+      <div><div class="approval-type">${a.type}</div>
+      <div class="approval-detail">${detail}</div>
+      <div class="approval-meta">${formatDate(a.date)} · <span style="font-family:var(--mono)">${a.txnId}</span></div></div>
+      <div class="approval-actions">${actions}</div></div>`;
   }).join("");
 }
 
-async function openAssign(txnId) {
-  const txn = allApprovals.find(a=>a.txnId===txnId);
-  currentApprovalTxn = txn;
-  document.getElementById("assign-req-info").innerHTML =
-    `Request from: <b>${txn.staff}</b><br/>Reason: ${txn.notes||"—"}`;
-  const sel = document.getElementById("assign-laptop-sel");
-  sel.innerHTML = '<option value="">— Select available laptop —</option>';
+async function openAssign(txnId){
+  currentApprovalTxn=allApprovals.find(a=>a.txnId===txnId);
+  document.getElementById("assign-req-info").innerHTML=
+    `Request from: <b>${currentApprovalTxn.staff}</b><br/>Reason: ${currentApprovalTxn.notes||"—"}`;
+  const sel=document.getElementById("assign-laptop-sel");
+  sel.innerHTML='<option value="">— Select available laptop —</option>';
   allLaptops.filter(l=>l.status==="Available").forEach(l=>{
-    const o = document.createElement("option");
-    o.value = l.id; o.textContent = `${l.id} — ${l.make} ${l.model}`;
-    sel.appendChild(o);
+    const o=document.createElement("option");
+    o.value=l.id; o.textContent=`${l.id} — ${l.make} ${l.model}`; sel.appendChild(o);
   });
   openModal("modal-assign");
 }
 
-async function submitAssign() {
-  const laptopId = document.getElementById("assign-laptop-sel").value;
-  if (!laptopId) { toast("Please select a laptop."); return; }
-  const r = await apiPost({action:"approveRequest", txnId:currentApprovalTxn.txnId, laptopId, staff:currentApprovalTxn.staff});
-  if (r.success) { toast("Approved & assigned!"); closeModal("modal-assign"); await refreshAll(); }
+async function submitAssign(){
+  const laptopId=document.getElementById("assign-laptop-sel").value;
+  if(!laptopId){toast("Please select a laptop.");return;}
+  const r=await apiPost({action:"approveRequest",txnId:currentApprovalTxn.txnId,laptopId,staff:currentApprovalTxn.staff});
+  if(r.success){toast("Approved & assigned!");closeModal("modal-assign");await refreshAll();}
   else toast("Error: "+(r.message||"Try again"));
 }
 
-let rejectTxnId = null;
-function openReject(txnId) { rejectTxnId = txnId; document.getElementById("reject-reason").value=""; openModal("modal-reject"); }
-async function submitReject() {
-  const reason = document.getElementById("reject-reason").value;
-  const r = await apiPost({action:"rejectTxn", txnId:rejectTxnId, reason});
-  if (r.success) { toast("Request rejected."); closeModal("modal-reject"); await refreshAll(); }
+function openReject(txnId){rejectTxnId=txnId;document.getElementById("reject-reason").value="";openModal("modal-reject");}
+async function submitReject(){
+  const r=await apiPost({action:"rejectTxn",txnId:rejectTxnId,reason:document.getElementById("reject-reason").value});
+  if(r.success){toast("Rejected.");closeModal("modal-reject");await refreshAll();}
   else toast("Error: "+(r.message||"Try again"));
 }
 
-async function approveTransfer(txnId) {
-  const r = await apiPost({action:"approveTransfer", txnId});
-  if (r.success) { toast("Transfer approved!"); await refreshAll(); }
+async function approveTransfer(txnId){
+  const r=await apiPost({action:"approveTransfer",txnId});
+  if(r.success){toast("Transfer approved!");await refreshAll();}
   else toast("Error: "+(r.message||"Try again"));
 }
 
-async function approveReturn(txnId) {
-  const txn = allApprovals.find(a=>a.txnId===txnId);
-  const r = await apiPost({action:"approveReturn", txnId, laptopId:txn.laptopId, condition:txn.condition, staff:txn.staff});
-  if (r.success) { toast("Return confirmed!"); await refreshAll(); }
+async function approveReturn(txnId,laptopId,condition,staff){
+  const r=await apiPost({action:"approveReturn",txnId,laptopId,condition,staff});
+  if(r.success){toast("Return confirmed!");await refreshAll();}
   else toast("Error: "+(r.message||"Try again"));
 }
 
 // ─── LAPTOPS ───
-async function loadLaptops() {
-  try {
-    const data = await api("getAllLaptops");
-    allLaptops = data.laptops || [];
-    renderLaptops();
-  } catch(e) {}
+async function loadLaptops(){
+  try{const data=await api("getAllLaptops");allLaptops=data.laptops||[];renderLaptops();}catch(e){}
 }
-
-function renderLaptops() {
-  const tbody = document.getElementById("laptops-table");
-  if (!allLaptops.length) {
-    tbody.innerHTML = '<tr><td colspan="8" class="empty-row">No laptops added yet</td></tr>';
-    return;
-  }
-  tbody.innerHTML = allLaptops.map(l=>`<tr>
+function renderLaptops(){
+  const tbody=document.getElementById("laptops-table");
+  tbody.innerHTML=allLaptops.length?allLaptops.map(l=>`<tr>
     <td style="font-family:var(--mono);font-size:.8rem">${l.id}</td>
     <td>${l.make}</td><td>${l.model}</td>
     <td style="font-family:var(--mono);font-size:.78rem">${l.serial}</td>
-    <td>${l.vpn||"—"}</td>
-    <td>${badge(l.status)}</td>
-    <td>${l.condition||"—"}</td>
-    <td><div class="btn-row">
-      <button class="btn btn-ghost btn-sm" onclick="editLaptop('${l.id}')">Edit</button>
-    </div></td>
-  </tr>`).join("");
+    <td>${l.vpn||"—"}</td><td>${badge(l.status)}</td><td>${l.condition||"—"}</td>
+    <td><button class="btn btn-ghost btn-sm" onclick="editLaptop('${l.id}')">Edit</button></td>
+  </tr>`).join(""):'<tr><td colspan="8" class="empty-row">No laptops added yet</td></tr>';
 }
 
-function openAddLaptop() {
-  editingLaptopId = null;
-  document.getElementById("add-laptop-title").textContent = "+ Add Laptop";
+function openAddLaptop(){
+  editingLaptopId=null;
+  document.getElementById("add-laptop-title").textContent="+ Add Laptop";
   ["lp-id","lp-make","lp-model","lp-serial","lp-vpnnum","lp-notes"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("lp-vpn").value="Active";
+  document.getElementById("lp-condition").value="Good";
   openModal("modal-add-laptop");
 }
-
-function editLaptop(id) {
-  const l = allLaptops.find(x=>x.id===id);
-  editingLaptopId = id;
-  document.getElementById("add-laptop-title").textContent = "Edit Laptop";
-  document.getElementById("lp-id").value = l.id;
-  document.getElementById("lp-make").value = l.make;
-  document.getElementById("lp-model").value = l.model;
-  document.getElementById("lp-serial").value = l.serial;
-  document.getElementById("lp-vpn").value = l.vpn||"Active";
-  document.getElementById("lp-vpnnum").value = l.vpnnum||"";
-  document.getElementById("lp-condition").value = l.condition||"Good";
-  document.getElementById("lp-notes").value = l.notes||"";
+function editLaptop(id){
+  const l=allLaptops.find(x=>x.id===id); editingLaptopId=id;
+  document.getElementById("add-laptop-title").textContent="Edit Laptop";
+  document.getElementById("lp-id").value=l.id;
+  document.getElementById("lp-make").value=l.make;
+  document.getElementById("lp-model").value=l.model;
+  document.getElementById("lp-serial").value=l.serial;
+  document.getElementById("lp-vpn").value=l.vpn||"Active";
+  document.getElementById("lp-vpnnum").value=l.vpnnum||"";
+  document.getElementById("lp-condition").value=l.condition||"Good";
+  document.getElementById("lp-notes").value=l.notes||"";
   openModal("modal-add-laptop");
 }
-
-async function saveLaptop() {
-  const payload = {
-    action: editingLaptopId ? "editLaptop" : "addLaptop",
-    id: document.getElementById("lp-id").value.trim(),
-    make: document.getElementById("lp-make").value.trim(),
-    model: document.getElementById("lp-model").value.trim(),
-    serial: document.getElementById("lp-serial").value.trim(),
-    vpn: document.getElementById("lp-vpn").value,
-    vpnnum: document.getElementById("lp-vpnnum").value.trim(),
-    condition: document.getElementById("lp-condition").value,
-    notes: document.getElementById("lp-notes").value.trim()
-  };
-  if (!payload.id||!payload.make||!payload.model) { toast("ID, Make and Model are required."); return; }
-  const r = await apiPost(payload);
-  if (r.success) { toast(editingLaptopId?"Laptop updated!":"Laptop added!"); closeModal("modal-add-laptop"); await loadLaptops(); }
+async function saveLaptop(){
+  const payload={action:editingLaptopId?"editLaptop":"addLaptop",
+    id:document.getElementById("lp-id").value.trim(),
+    make:document.getElementById("lp-make").value.trim(),
+    model:document.getElementById("lp-model").value.trim(),
+    serial:document.getElementById("lp-serial").value.trim(),
+    vpn:document.getElementById("lp-vpn").value,
+    vpnnum:document.getElementById("lp-vpnnum").value.trim(),
+    condition:document.getElementById("lp-condition").value,
+    notes:document.getElementById("lp-notes").value.trim()};
+  if(!payload.id||!payload.make||!payload.model){toast("ID, Make and Model are required.");return;}
+  const r=await apiPost(payload);
+  if(r.success){toast(editingLaptopId?"Laptop updated!":"Laptop added!");closeModal("modal-add-laptop");await loadLaptops();}
   else toast("Error: "+(r.message||"Try again"));
 }
 
 // ─── STAFF ───
-async function loadStaff() {
-  try {
-    const data = await api("getStaff");
-    allStaff = data.staff || [];
-    renderStaff();
-  } catch(e) {}
+async function loadStaff(){
+  try{const data=await api("getStaff");allStaff=data.staff||[];renderStaff();}catch(e){}
 }
-
-function renderStaff() {
-  const tbody = document.getElementById("staff-table");
-  if (!allStaff.length) {
-    tbody.innerHTML = '<tr><td colspan="4" class="empty-row">No staff added yet</td></tr>';
-    return;
-  }
-  tbody.innerHTML = allStaff.map(s=>`<tr>
+function renderStaff(){
+  const tbody=document.getElementById("staff-table");
+  tbody.innerHTML=allStaff.length?allStaff.map(s=>`<tr>
     <td>${s.name}</td>
     <td style="font-family:var(--mono);font-size:.8rem">${s.currentLaptop||"—"}</td>
     <td>${s.active?badge("Active"):badge("Inactive")}</td>
     <td><button class="btn btn-ghost btn-sm" onclick="toggleStaff('${s.name}',${s.active})">${s.active?"Deactivate":"Activate"}</button></td>
-  </tr>`).join("");
+  </tr>`).join(""):'<tr><td colspan="4" class="empty-row">No staff added yet</td></tr>';
 }
-
-function openAddStaff() {
-  document.getElementById("st-name").value="";
-  document.getElementById("st-role").value="";
-  openModal("modal-add-staff");
-}
-
-async function saveStaff() {
-  const name = document.getElementById("st-name").value.trim();
-  const role = document.getElementById("st-role").value.trim();
-  if (!name) { toast("Name is required."); return; }
-  const r = await apiPost({action:"addStaff", name, role});
-  if (r.success) { toast("Staff added!"); closeModal("modal-add-staff"); await loadStaff(); }
+function openAddStaff(){document.getElementById("st-name").value="";document.getElementById("st-role").value="";openModal("modal-add-staff");}
+async function saveStaff(){
+  const name=document.getElementById("st-name").value.trim();
+  if(!name){toast("Name is required.");return;}
+  const r=await apiPost({action:"addStaff",name,role:document.getElementById("st-role").value.trim()});
+  if(r.success){toast("Staff added!");closeModal("modal-add-staff");await loadStaff();}
   else toast("Error: "+(r.message||"Try again"));
 }
-
-async function toggleStaff(name, active) {
-  const r = await apiPost({action:"toggleStaff", name, active:!active});
-  if (r.success) { toast("Staff updated!"); await loadStaff(); }
-  else toast("Error");
+async function toggleStaff(name,active){
+  const r=await apiPost({action:"toggleStaff",name,active:!active});
+  if(r.success){toast("Staff updated!");await loadStaff();}else toast("Error");
 }
 
 // ─── REPAIRS ───
-async function loadRepairs() {
-  try {
-    const data = await api("getRepairs");
-    allRepairs = data.repairs || [];
-    renderRepairs();
-  } catch(e) {}
+async function loadRepairs(){
+  try{const data=await api("getRepairs");allRepairs=data.repairs||[];renderRepairs();}catch(e){}
 }
-
-function renderRepairs() {
-  const tbody = document.getElementById("repairs-table");
-  if (!allRepairs.length) {
-    tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No repairs logged</td></tr>';
-    return;
-  }
-  tbody.innerHTML = allRepairs.map(r=>`<tr>
+function renderRepairs(){
+  const tbody=document.getElementById("repairs-table");
+  tbody.innerHTML=allRepairs.length?allRepairs.map(r=>`<tr>
     <td style="font-family:var(--mono);font-size:.8rem">${r.laptopId}</td>
     <td>${r.issue}</td>
     <td style="font-family:var(--mono);font-size:.78rem;color:var(--muted)">${formatDate(r.sentOn)}</td>
     <td style="font-family:var(--mono);font-size:.78rem;color:var(--muted)">${formatDate(r.returnedOn)||"—"}</td>
-    <td>${r.cost?'₹'+r.cost:"—"}</td>
-    <td>${badge(r.status)}</td>
+    <td>${r.cost?'₹'+r.cost:"—"}</td><td>${badge(r.status)}</td>
     <td>${r.status==="In Repair"?`<button class="btn btn-success btn-sm" onclick="openCloseRepair('${r.repairId}')">Close</button>`:"—"}</td>
-  </tr>`).join("");
+  </tr>`).join(""):'<tr><td colspan="7" class="empty-row">No repairs logged</td></tr>';
 }
-
-function openAddRepair() {
-  editingRepairId = null;
-  document.getElementById("repair-modal-title").textContent = "+ Log Repair";
-  const sel = document.getElementById("repair-laptop");
-  sel.innerHTML = '<option value="">— Select laptop —</option>';
-  allLaptops.forEach(l=>{
-    const o=document.createElement("option"); o.value=l.id; o.textContent=`${l.id} — ${l.make} ${l.model}`; sel.appendChild(o);
-  });
-  document.getElementById("repair-sent").value = new Date().toISOString().split("T")[0];
-  document.getElementById("repair-issue").value="";
-  document.getElementById("repair-cost").value="";
+function openAddRepair(){
+  const sel=document.getElementById("repair-laptop");
+  sel.innerHTML='<option value="">— Select laptop —</option>';
+  allLaptops.forEach(l=>{const o=document.createElement("option");o.value=l.id;o.textContent=`${l.id} — ${l.make} ${l.model}`;sel.appendChild(o);});
+  document.getElementById("repair-sent").value=new Date().toISOString().split("T")[0];
+  document.getElementById("repair-issue").value="";document.getElementById("repair-cost").value="";
   openModal("modal-add-repair");
 }
-
-async function saveRepair() {
-  const laptopId = document.getElementById("repair-laptop").value;
-  const issue = document.getElementById("repair-issue").value.trim();
-  if (!laptopId||!issue) { toast("Laptop and issue are required."); return; }
-  const r = await apiPost({
-    action:"addRepair", laptopId, issue,
-    sentOn: document.getElementById("repair-sent").value,
-    cost: document.getElementById("repair-cost").value,
-    status: document.getElementById("repair-status").value
-  });
-  if (r.success) { toast("Repair logged!"); closeModal("modal-add-repair"); await loadRepairs(); await loadLaptops(); }
+async function saveRepair(){
+  const laptopId=document.getElementById("repair-laptop").value;
+  const issue=document.getElementById("repair-issue").value.trim();
+  if(!laptopId||!issue){toast("Laptop and issue are required.");return;}
+  const r=await apiPost({action:"addRepair",laptopId,issue,sentOn:document.getElementById("repair-sent").value,cost:document.getElementById("repair-cost").value,status:document.getElementById("repair-status").value});
+  if(r.success){toast("Repair logged!");closeModal("modal-add-repair");await loadRepairs();await loadLaptops();}
   else toast("Error: "+(r.message||"Try again"));
 }
-
-let closingRepairId = null;
-function openCloseRepair(repairId) {
-  closingRepairId = repairId;
-  document.getElementById("close-repair-date").value = new Date().toISOString().split("T")[0];
+function openCloseRepair(repairId){
+  closingRepairId=repairId;
+  document.getElementById("close-repair-date").value=new Date().toISOString().split("T")[0];
   document.getElementById("close-repair-cost").value="";
   openModal("modal-close-repair");
 }
-
-async function submitCloseRepair() {
-  const r = await apiPost({
-    action:"closeRepair", repairId:closingRepairId,
-    returnedOn: document.getElementById("close-repair-date").value,
-    cost: document.getElementById("close-repair-cost").value,
-    outcome: document.getElementById("close-repair-outcome").value
-  });
-  if (r.success) { toast("Repair closed!"); closeModal("modal-close-repair"); await loadRepairs(); await loadLaptops(); await loadDashboard(); }
+async function submitCloseRepair(){
+  const r=await apiPost({action:"closeRepair",repairId:closingRepairId,returnedOn:document.getElementById("close-repair-date").value,cost:document.getElementById("close-repair-cost").value,outcome:document.getElementById("close-repair-outcome").value});
+  if(r.success){toast("Repair closed!");closeModal("modal-close-repair");await loadRepairs();await loadLaptops();await loadDashboard();}
   else toast("Error: "+(r.message||"Try again"));
 }
 
 // ─── HISTORY ───
-async function loadHistory() {
-  try {
-    const data = await api("getAllHistory");
-    allHistory = data.history || [];
-    filterHistory();
-  } catch(e) {}
+async function loadHistory(){
+  try{const data=await api("getAllHistory");allHistory=data.history||[];filterHistory();}catch(e){}
 }
-
-function filterHistory() {
-  const search = document.getElementById("hist-search").value.toLowerCase();
-  const type = document.getElementById("hist-type").value;
-  const filtered = allHistory.filter(h=>{
-    const matchSearch = !search || h.staff?.toLowerCase().includes(search) || h.laptopId?.toLowerCase().includes(search);
-    const matchType = !type || h.type===type;
-    return matchSearch && matchType;
-  });
-  const tbody = document.getElementById("history-table");
-  if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="6" class="empty-row">No records found</td></tr>';
-    return;
-  }
-  tbody.innerHTML = filtered.map(h=>`<tr>
+function filterHistory(){
+  const search=document.getElementById("hist-search").value.toLowerCase();
+  const type=document.getElementById("hist-type").value;
+  const filtered=allHistory.filter(h=>(!search||(h.staff||"").toLowerCase().includes(search)||(h.laptopId||"").toLowerCase().includes(search))&&(!type||h.type===type));
+  const tbody=document.getElementById("history-table");
+  tbody.innerHTML=filtered.length?filtered.map(h=>`<tr>
     <td style="font-family:var(--mono);font-size:.78rem;color:var(--muted)">${formatDate(h.date)}</td>
     <td>${h.type}</td><td>${h.staff||"—"}</td>
     <td style="font-family:var(--mono);font-size:.8rem">${h.laptopId||"—"}</td>
     <td style="color:var(--muted);font-size:.82rem">${h.notes||"—"}</td>
-    <td>${badge(h.status)}</td>
-  </tr>`).join("");
+    <td>${badge(h.status)}</td></tr>`).join("")
+    :'<tr><td colspan="6" class="empty-row">No records found</td></tr>';
 }
 
-// ─── UTILS ───
-async function refreshAll() {
-  await Promise.all([loadDashboard(), loadApprovals(), loadLaptops(), loadStaff(), loadRepairs(), loadHistory()]);
+async function refreshAll(){
+  await Promise.all([loadDashboard(),loadApprovals(),loadLaptops(),loadStaff(),loadRepairs(),loadHistory()]);
 }
 
-function showPage(id, btn) {
+function showPage(id,btn){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
   document.getElementById("page-"+id).classList.add("active");
   btn.classList.add("active");
 }
+function openModal(id){document.getElementById(id).classList.add("open");}
+function closeModal(id){document.getElementById(id).classList.remove("open");}
 
-function openModal(id) { document.getElementById(id).classList.add("open"); }
-function closeModal(id) { document.getElementById(id).classList.remove("open"); }
-
-function badge(s) {
-  const map = {
-    "Available":"badge-green","Issued":"badge-blue","In Repair":"badge-warn",
-    "Damaged":"badge-red","Scrap":"badge-gray","Active":"badge-green","Inactive":"badge-gray",
-    "Pending":"badge-warn","Approved":"badge-green","Rejected":"badge-red",
-    "Awaiting Confirmation":"badge-warn","Awaiting Manager Approval":"badge-blue",
-    "Returned":"badge-gray","Completed":"badge-green"
-  };
+function badge(s){
+  const map={"Available":"badge-green","Issued":"badge-blue","In Repair":"badge-warn","Damaged":"badge-red","Scrap":"badge-gray","Active":"badge-green","Inactive":"badge-gray","Pending":"badge-warn","Approved":"badge-green","Rejected":"badge-red","Awaiting Confirmation":"badge-warn","Awaiting Manager Approval":"badge-blue","Returned":"badge-gray","Completed":"badge-green"};
   return `<span class="badge ${map[s]||'badge-gray'}">${s}</span>`;
 }
-
-function formatDate(d) {
-  if (!d) return "—";
-  try { return new Date(d).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"}); }
-  catch(e) { return d; }
+function formatDate(d){
+  if(!d) return "—";
+  try{return new Date(d).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});}
+  catch(e){return d;}
 }
-
-function toast(msg) {
-  const el = document.getElementById("toast");
-  el.textContent = msg; el.classList.add("show");
-  setTimeout(()=>el.classList.remove("show"), 3000);
+function toast(msg){
+  const el=document.getElementById("toast");
+  el.textContent=msg;el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"),3000);
 }
-
-// ─── PIN LOGIC ───
-const MANAGER_PIN = "5226";
-let pinEntry = "";
-
-function pinKey(digit) {
-  if (pinEntry.length >= 4) return;
-  pinEntry += digit;
-  updateDots();
-  if (pinEntry.length === 4) setTimeout(checkPin, 150);
-}
-
-function pinBack() {
-  pinEntry = pinEntry.slice(0, -1);
-  updateDots();
-}
-
-function pinClear() {
-  pinEntry = "";
-  updateDots();
-  document.getElementById("pin-err").textContent = "";
-}
-
-function updateDots(state) {
-  for (let i = 0; i < 4; i++) {
-    const dot = document.getElementById("dot-" + i);
-    dot.className = "pin-dot";
-    if (state === "error") dot.classList.add("error");
-    else if (i < pinEntry.length) dot.classList.add("filled");
-  }
-}
-
-function checkPin() {
-  if (pinEntry === MANAGER_PIN) {
-    document.getElementById("pin-screen").style.display = "none";
-    document.getElementById("app").style.display = "flex";
-    init();
-  } else {
-    updateDots("error");
-    document.getElementById("pin-err").textContent = "Incorrect PIN. Try again.";
-    setTimeout(() => { pinEntry = ""; updateDots(); }, 900);
-  }
-}
-
-// Support keyboard entry
-document.addEventListener("keydown", e => {
-  if (document.getElementById("pin-screen").style.display === "none") return;
-  if (e.key >= "0" && e.key <= "9") pinKey(e.key);
-  else if (e.key === "Backspace") pinBack();
-  else if (e.key === "Escape") pinClear();
-});
 </script>
 </body>
 </html>
