@@ -193,7 +193,6 @@ tr:hover td{background:#f8f9fc}
   <div class="modal">
     <div class="modal-title">📋 Request a Laptop</div>
     <div class="field"><label>Reason / Purpose</label><input type="text" id="req-reason" placeholder="e.g. New joinee, project work..."/></div>
-    <div class="field"><label>Preferred Make (optional)</label><input type="text" id="req-make" placeholder="e.g. Dell, HP, any"/></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-request')">Cancel</button>
       <button class="btn" onclick="submitRequest()">Submit Request</button>
@@ -432,7 +431,7 @@ async function submitRequest() {
   const reason = document.getElementById("req-reason").value.trim();
   if (!reason) { toast("Please enter a reason."); return; }
   try {
-    const r = await apiPost({action:"requestLaptop", staff:currentStaff, notes:reason, preferredMake: document.getElementById("req-make").value});
+    const r = await apiPost({action:"requestLaptop", staff:currentStaff, notes:reason});
     if (r.success) { toast("Request submitted!"); closeModal("modal-request"); await refreshHome(); }
     else toast("Error: " + (r.message||"Try again"));
   } catch(e) { toast("Connection error. Try again."); }
