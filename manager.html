@@ -422,7 +422,14 @@ async function loadDashboard(){
 
     // Issued list
     const issuedEl=document.getElementById("dash-issued-list");
-    issuedEl.innerHTML=issued.length?issued.map(l=>`<div class="info-row"><span>${l.issuedTo}</span><span style="font-family:var(--mono);font-size:.78rem;color:var(--accent)">${l.id}</span></div>`).join("")
+    issuedEl.innerHTML=issued.length?issued.map(l=>`
+      <div class="info-row">
+        <span style="font-weight:500">${l.issuedTo}</span>
+        <span style="text-align:right">
+          <span style="font-family:var(--mono);font-size:.78rem;color:var(--accent);display:block">${l.id}</span>
+          <span style="font-size:.72rem;color:var(--muted)">Since ${formatDate(l.issuedOn)}</span>
+        </span>
+      </div>`).join("")
       :'<div style="color:var(--muted);font-size:.85rem;padding:.5rem 0">No laptops currently issued</div>';
 
     // Asset breakdown
